@@ -1,12 +1,14 @@
 <?php
 
 	Class formatterpb_markdownextrasmartypants extends TextFormatter{
-		
+
+		private static $_parser;
+
 		function about(){
 			return array(
 						 'name' => 'Markdown Extra plus SmartyPants',
-						 'version' => '1.3',
-						 'release-date' => '2007-12-06',
+						 'version' => '1.4',
+						 'release-date' => '2009-03-13',
 						 'author' => array('name' => 'Alistair Kearney',
 										   'website' => 'http://www.pointybeard.com',
 										   'email' => 'alistair@pointybeard.com'),
@@ -15,11 +17,14 @@
 		}
 				
 		function run($string){
-            if(!function_exists('Markdown')) include_once(EXTENSIONS . '/markdown/lib/markdown_extra.php');
+			if(!self::$_parser){
+				include_once(EXTENSIONS . '/markdown/lib/markdown.php');
+				self::$_parser = new MarkdownExtra_Parser();
+			}
+
             if(!function_exists('SmartyPants')) include_once(EXTENSIONS . '/markdown/lib/smartypants.php');
             
-            $result = stripslashes(Markdown($string));
-            return SmartyPants($result);
+			return SmartyPants(stripslashes(self::$_parser->transform($string)));
 		}		
 		
 	}
