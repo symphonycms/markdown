@@ -22,7 +22,7 @@ $SmartyPantsSyntaxVersion = '1.5.1';  # Fri 12 Mar 2004
 
 
 # Configurable variables:
-$smartypants_attr = "2";  # Change this to configure.
+$smartypants_attr = "1";  # Change this to configure.
 						  #  1 =>  "--" for em-dashes; no en-dash support
 						  #  2 =>  "---" for em-dashes; "--" for en-dashes
 						  #  3 =>  "--" for em-dashes; "---" for en-dashes
@@ -32,13 +32,50 @@ $smartypants_attr = "2";  # Change this to configure.
 $sp_tags_to_skip = '<(/?)(?:pre|code|kbd|script|math)[\s>]';
 
 
+# -- WordPress plugin interface -----------------------------------------------
+/*
+Plugin Name: SmartyPants
+Plugin URI: http://www.michelf.com/projects/php-smartypants/
+Description: SmartyPants is a web publishing utility that translates plain ASCII punctuation characters into &#8220;smart&#8221; typographic punctuation HTML entities. This plugin <strong>replace the default WordPress Texturize algorithm</strong> for the content and the title of your posts, the comments body and author name, and everywhere else Texturize normally apply. Based on the original Perl version by <a href="http://daringfireball.net/">John Gruber</a>.
+Version: 1.5.1e
+Author: Michel Fortin
+Author URI: http://www.michelf.com/
+*/
+if (isset($wp_version)) {
+	# Remove default Texturize filter that would conflict with SmartyPants.
+	remove_filter('category_description', 'wptexturize');
+	remove_filter('list_cats', 'wptexturize');
+	remove_filter('comment_author', 'wptexturize');
+	remove_filter('comment_text', 'wptexturize');
+	remove_filter('single_post_title', 'wptexturize');
+	remove_filter('the_title', 'wptexturize');
+	remove_filter('the_content', 'wptexturize');
+	remove_filter('the_excerpt', 'wptexturize');
+	# Add SmartyPants filter with priority 10 (same as Texturize).
+	add_filter('category_description', 'SmartyPants', 10);
+	add_filter('list_cats', 'SmartyPants', 10);
+	add_filter('comment_author', 'SmartyPants', 10);
+	add_filter('comment_text', 'SmartyPants', 10);
+	add_filter('single_post_title', 'SmartyPants', 10);
+	add_filter('the_title', 'SmartyPants', 10);
+	add_filter('the_content', 'SmartyPants', 10);
+	add_filter('the_excerpt', 'SmartyPants', 10);
+}
+
+# -- Smarty Modifier Interface ------------------------------------------------
+function smarty_modifier_smartypants($text, $attr = NULL) {
+	return SmartyPants($text, $attr);
+}
+
+
+
 function SmartyPants($text, $attr = NULL, $ctx = NULL) {
 	global $smartypants_attr, $sp_tags_to_skip;
 	# Paramaters:
 	$text;   # text to be parsed
 	$attr;   # value of the smart_quotes="" attribute
 	$ctx;    # MT context object (unused)
-	if($attr == NULL) $attr = $smartypants_attr;
+	if ($attr == NULL) $attr = $smartypants_attr;
 
 	# Options to specify which transformations to make:
 	$do_stupefy = FALSE;
@@ -59,32 +96,32 @@ function SmartyPants($text, $attr = NULL, $ctx = NULL) {
 	# e : ellipses
 	# w : convert &quot; entities to " for Dreamweaver users
 
-	if($attr == "0") {
+	if ($attr == "0") {
 		# Do nothing.
 		return $text;
 	}
-	else if($attr == "1") {
+	else if ($attr == "1") {
 		# Do everything, turn all options on.
 		$do_quotes    = 1;
 		$do_backticks = 1;
 		$do_dashes    = 1;
 		$do_ellipses  = 1;
 	}
-	else if($attr == "2") {
+	else if ($attr == "2") {
 		# Do everything, turn all options on, use old school dash shorthand.
 		$do_quotes    = 1;
 		$do_backticks = 1;
 		$do_dashes    = 2;
 		$do_ellipses  = 1;
 	}
-	else if($attr == "3") {
+	else if ($attr == "3") {
 		# Do everything, turn all options on, use inverted old school dash shorthand.
 		$do_quotes    = 1;
 		$do_backticks = 1;
 		$do_dashes    = 3;
 		$do_ellipses  = 1;
 	}
-	else if($attr == "-1") {
+	else if ($attr == "-1") {
 		# Special "stupefy" mode.
 		$do_stupefy   = 1;
 	}
@@ -92,13 +129,13 @@ function SmartyPants($text, $attr = NULL, $ctx = NULL) {
 		$chars = preg_split('//', $attr);
 		foreach ($chars as $c){
 			if      ($c == "q") { $do_quotes    = 1; }
-			else if($c == "b") { $do_backticks = 1; }
-			else if($c == "B") { $do_backticks = 2; }
-			else if($c == "d") { $do_dashes    = 1; }
-			else if($c == "D") { $do_dashes    = 2; }
-			else if($c == "i") { $do_dashes    = 3; }
-			else if($c == "e") { $do_ellipses  = 1; }
-			else if($c == "w") { $convert_quot = 1; }
+			else if ($c == "b") { $do_backticks = 1; }
+			else if ($c == "B") { $do_backticks = 2; }
+			else if ($c == "d") { $do_dashes    = 1; }
+			else if ($c == "D") { $do_dashes    = 2; }
+			else if ($c == "i") { $do_dashes    = 3; }
+			else if ($c == "e") { $do_ellipses  = 1; }
+			else if ($c == "w") { $convert_quot = 1; }
 			else {
 				# Unknown attribute option, ignore.
 			}
@@ -117,49 +154,49 @@ function SmartyPants($text, $attr = NULL, $ctx = NULL) {
 									# character quote tokens correctly.
 
 	foreach ($tokens as $cur_token) {
-		if($cur_token[0] == "tag") {
+		if ($cur_token[0] == "tag") {
 			# Don't mess with quotes inside tags.
 			$result .= $cur_token[1];
-			if(preg_match("@$sp_tags_to_skip@", $cur_token[1], $matches)) {
+			if (preg_match("@$sp_tags_to_skip@", $cur_token[1], $matches)) {
 				$in_pre = isset($matches[1]) && $matches[1] == '/' ? 0 : 1;
 			}
 		} else {
 			$t = $cur_token[1];
 			$last_char = substr($t, -1); # Remember last char of this token before processing.
-			if(! $in_pre) {
+			if (! $in_pre) {
 				$t = ProcessEscapes($t);
 
-				if($convert_quot) {
+				if ($convert_quot) {
 					$t = preg_replace('/&quot;/', '"', $t);
 				}
 
-				if($do_dashes) {
-					if($do_dashes == 1) $t = EducateDashes($t);
-					if($do_dashes == 2) $t = EducateDashesOldSchool($t);
-					if($do_dashes == 3) $t = EducateDashesOldSchoolInverted($t);
+				if ($do_dashes) {
+					if ($do_dashes == 1) $t = EducateDashes($t);
+					if ($do_dashes == 2) $t = EducateDashesOldSchool($t);
+					if ($do_dashes == 3) $t = EducateDashesOldSchoolInverted($t);
 				}
 
-				if($do_ellipses) $t = EducateEllipses($t);
+				if ($do_ellipses) $t = EducateEllipses($t);
 
 				# Note: backticks need to be processed before quotes.
-				if($do_backticks) {
+				if ($do_backticks) {
 					$t = EducateBackticks($t);
-					if($do_backticks == 2) $t = EducateSingleBackticks($t);
+					if ($do_backticks == 2) $t = EducateSingleBackticks($t);
 				}
 
-				if($do_quotes) {
-					if($t == "'") {
+				if ($do_quotes) {
+					if ($t == "'") {
 						# Special case: single-character ' token
-						if(preg_match('/\S/', $prev_token_last_char)) {
+						if (preg_match('/\S/', $prev_token_last_char)) {
 							$t = "&#8217;";
 						}
 						else {
 							$t = "&#8216;";
 						}
 					}
-					else if($t == '"') {
+					else if ($t == '"') {
 						# Special case: single-character " token
-						if(preg_match('/\S/', $prev_token_last_char)) {
+						if (preg_match('/\S/', $prev_token_last_char)) {
 							$t = "&#8221;";
 						}
 						else {
@@ -172,7 +209,7 @@ function SmartyPants($text, $attr = NULL, $ctx = NULL) {
 					}
 				}
 
-				if($do_stupefy) $t = StupefyEntities($t);
+				if ($do_stupefy) $t = StupefyEntities($t);
 			}
 			$prev_token_last_char = $last_char;
 			$result .= $t;
@@ -189,15 +226,15 @@ function SmartQuotes($text, $attr = NULL, $ctx = NULL) {
 	$text;   # text to be parsed
 	$attr;   # value of the smart_quotes="" attribute
 	$ctx;    # MT context object (unused)
-	if($attr == NULL) $attr = $smartypants_attr;
+	if ($attr == NULL) $attr = $smartypants_attr;
 
 	$do_backticks;   # should we educate ``backticks'' -style quotes?
 
-	if($attr == 0) {
+	if ($attr == 0) {
 		# do nothing;
 		return $text;
 	}
-	else if($attr == 2) {
+	else if ($attr == 2) {
 		# smarten ``backticks'' -style quotes
 		$do_backticks = 1;
 	}
@@ -209,7 +246,7 @@ function SmartQuotes($text, $attr = NULL, $ctx = NULL) {
 	# an HTML tag. Add a space to give the quote education algorithm a bit of
 	# context, so that it can guess correctly that it's a closing quote:
 	$add_extra_space = 0;
-	if(preg_match("/>['\"]\\z/", $text)) {
+	if (preg_match("/>['\"]\\z/", $text)) {
 		$add_extra_space = 1; # Remember, so we can trim the extra space later.
 		$text .= " ";
 	}
@@ -226,33 +263,33 @@ function SmartQuotes($text, $attr = NULL, $ctx = NULL) {
 									# character quote tokens correctly.
 
 	foreach ($tokens as $cur_token) {
-		if($cur_token[0] == "tag") {
+		if ($cur_token[0] == "tag") {
 			# Don't mess with quotes inside tags
 			$result .= $cur_token[1];
-			if(preg_match("@$sp_tags_to_skip@", $cur_token[1], $matches)) {
+			if (preg_match("@$sp_tags_to_skip@", $cur_token[1], $matches)) {
 				$in_pre = isset($matches[1]) && $matches[1] == '/' ? 0 : 1;
 			}
 		} else {
 			$t = $cur_token[1];
 			$last_char = substr($t, -1); # Remember last char of this token before processing.
-			if(! $in_pre) {
+			if (! $in_pre) {
 				$t = ProcessEscapes($t);
-				if($do_backticks) {
+				if ($do_backticks) {
 					$t = EducateBackticks($t);
 				}
 
-				if($t == "'") {
+				if ($t == "'") {
 					# Special case: single-character ' token
-					if(preg_match('/\S/', $prev_token_last_char)) {
+					if (preg_match('/\S/', $prev_token_last_char)) {
 						$t = "&#8217;";
 					}
 					else {
 						$t = "&#8216;";
 					}
 				}
-				else if($t == '"') {
+				else if ($t == '"') {
 					# Special case: single-character " token
-					if(preg_match('/\S/', $prev_token_last_char)) {
+					if (preg_match('/\S/', $prev_token_last_char)) {
 						$t = "&#8221;";
 					}
 					else {
@@ -270,7 +307,7 @@ function SmartQuotes($text, $attr = NULL, $ctx = NULL) {
 		}
 	}
 
-	if($add_extra_space) {
+	if ($add_extra_space) {
 		preg_replace('/ \z/', '', $result);  # Trim trailing space if we added one earlier.
 	}
 	return $result;
@@ -283,20 +320,20 @@ function SmartDashes($text, $attr = NULL, $ctx = NULL) {
 	$text;   # text to be parsed
 	$attr;   # value of the smart_dashes="" attribute
 	$ctx;    # MT context object (unused)
-	if($attr == NULL) $attr = $smartypants_attr;
+	if ($attr == NULL) $attr = $smartypants_attr;
 
 	# reference to the subroutine to use for dash education, default to EducateDashes:
 	$dash_sub_ref = 'EducateDashes';
 
-	if($attr == 0) {
+	if ($attr == 0) {
 		# do nothing;
 		return $text;
 	}
-	else if($attr == 2) {
+	else if ($attr == 2) {
 		# use old smart dash shortcuts, "--" for en, "---" for em
 		$dash_sub_ref = 'EducateDashesOldSchool'; 
 	}
-	else if($attr == 3) {
+	else if ($attr == 3) {
 		# inverse of 2, "--" for em, "---" for en
 		$dash_sub_ref = 'EducateDashesOldSchoolInverted'; 
 	}
@@ -307,15 +344,15 @@ function SmartDashes($text, $attr = NULL, $ctx = NULL) {
 	$result = '';
 	$in_pre = 0;  # Keep track of when we're inside <pre> or <code> tags
 	foreach ($tokens as $cur_token) {
-		if($cur_token[0] == "tag") {
+		if ($cur_token[0] == "tag") {
 			# Don't mess with quotes inside tags
 			$result .= $cur_token[1];
-			if(preg_match("@$sp_tags_to_skip@", $cur_token[1], $matches)) {
+			if (preg_match("@$sp_tags_to_skip@", $cur_token[1], $matches)) {
 				$in_pre = isset($matches[1]) && $matches[1] == '/' ? 0 : 1;
 			}
 		} else {
 			$t = $cur_token[1];
-			if(! $in_pre) {
+			if (! $in_pre) {
 				$t = ProcessEscapes($t);
 				$t = $dash_sub_ref($t);
 			}
@@ -331,9 +368,9 @@ function SmartEllipses($text, $attr = NULL, $ctx = NULL) {
 	$text;   # text to be parsed
 	$attr;   # value of the smart_ellipses="" attribute
 	$ctx;    # MT context object (unused)
-	if($attr == NULL) $attr = $smartypants_attr;
+	if ($attr == NULL) $attr = $smartypants_attr;
 
-	if($attr == 0) {
+	if ($attr == 0) {
 		# do nothing;
 		return $text;
 	}
@@ -344,15 +381,15 @@ function SmartEllipses($text, $attr = NULL, $ctx = NULL) {
 	$result = '';
 	$in_pre = 0;  # Keep track of when we're inside <pre> or <code> tags
 	foreach ($tokens as $cur_token) {
-		if($cur_token[0] == "tag") {
+		if ($cur_token[0] == "tag") {
 			# Don't mess with quotes inside tags
 			$result .= $cur_token[1];
-			if(preg_match("@$sp_tags_to_skip@", $cur_token[1], $matches)) {
+			if (preg_match("@$sp_tags_to_skip@", $cur_token[1], $matches)) {
 				$in_pre = isset($matches[1]) && $matches[1] == '/' ? 0 : 1;
 			}
 		} else {
 			$t = $cur_token[1];
-			if(! $in_pre) {
+			if (! $in_pre) {
 				$t = ProcessEscapes($t);
 				$t = EducateEllipses($t);
 			}
@@ -604,7 +641,7 @@ function ProcessEscapes($_) {
 
 # _TokenizeHTML is shared between PHP SmartyPants and PHP Markdown.
 # We only define it if it is not already defined.
-if(!function_exists('_TokenizeHTML')) :
+if (!function_exists('_TokenizeHTML')) :
 function _TokenizeHTML($str) {
 #
 #   Parameter:  String containing HTML markup.
@@ -631,7 +668,7 @@ function _TokenizeHTML($str) {
 	$parts = preg_split("{($match)}", $str, -1, PREG_SPLIT_DELIM_CAPTURE);
 
 	foreach ($parts as $part) {
-		if(++$index % 2 && $part != '') 
+		if (++$index % 2 && $part != '') 
 			$tokens[] = array('text', $part);
 		else
 			$tokens[] = array('tag', $part);
