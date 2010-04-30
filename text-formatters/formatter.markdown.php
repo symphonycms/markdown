@@ -20,19 +20,12 @@
 				
 		public function run($string){
 			if(!self::$_parser){
-				include_once(EXTENSIONS . '/markdown/lib/php-markdown-extra-1.2.4/markdown.php');
+				include_once(EXTENSIONS . '/markdown/lib/php-markdown-1.0.1n/markdown.php');
 				self::$_parser = new Markdown_Parser();
 			}
 			
 			// Markdown transformation
 			$result = stripslashes(self::$_parser->transform($string));
-			
-			if(!function_exists('SmartyPants')) include_once(EXTENSIONS . '/markdown/lib/php-smartypants-1.5.1e/smartypants.php');
-            
-			// Apply "Smarty Pants" formatting
-			$result = SmartyPants(
-				stripslashes(self::$_parser->transform($string))
-			);
 
 			return $result;
 		}
