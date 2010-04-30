@@ -7,8 +7,8 @@
 		public function about(){
 			return array(
 				'name' => 'Markdown Extra',
-				'version' => '1.7',
-				'release-date' => '2010-03-17',
+				'version' => '1.8',
+				'release-date' => '2010-04-30',
 				'author' => array(
 					'name' => 'Alistair Kearney',
 					'website' => 'http://symphony-cms.com',
