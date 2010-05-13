@@ -2,7 +2,7 @@
 	
 	/****
 		
-		Markdown Text Formatter
+		Markdown Extra Text Formatter
 		Version: 1.8
 		Release Date: 30th April 2010
 		Author: Alistair Kearney (alistair@symphony-cms.com)
@@ -12,15 +12,15 @@
 	
 	****/
 	
-	Class formatterMarkdown extends TextFormatter{
-		
-		const NAME = 'Markdown';
-		
+	Class formatterMarkdown_Extra extends TextFormatter{
+
 		private static $_parser;
-				
+
+		const NAME = 'Markdown Extra';
+	
 		public function run($string){
 			if(!self::$_parser){
-				include_once(EXTENSIONS . '/markdown/lib/php-markdown-1.0.1n/markdown.php');
+				include_once(EXTENSIONS . '/markdown/lib/php-markdown-extra-1.2.4/markdown.php');
 				self::$_parser = new Markdown_Parser();
 			}
 			
@@ -31,6 +31,5 @@
 		}
 		
 	}
-	
-	return 'formatterMarkdown';
 
+	return 'formatterMarkdown_Extra';

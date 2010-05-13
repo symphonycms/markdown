@@ -3,8 +3,8 @@
 	/****
 	
 		Markdown Text Formatter with HTML Purifier
-		Version: 1.0
-		Release Date: 17th March 2010
+		Version: 1.1
+		Release Date: 30th April 2010
 		Author: Alistair Kearney (alistair@symphony-cms.com)
 	
 		Write entries in the Markdown format. Wrapper for the PHP Markdown 
