@@ -2,11 +2,11 @@
 
 	Class extension_Markdown extends Extension{
 		public function about(){
-			return array(
+			return (object)array(
 				'name' => 'Text Formatter: Markdown',
 				'version' => '1.11',
 				'release-date' => '2010-04-30',
-				'author' => array(
+				'author' => (object)array(
 					'name' => 'Alistair Kearney',
 					'website' => 'http://symphony-cms.com',
 					'email' => 'alistair@symphony-cms.com'
@@ -53,3 +53,4 @@
 
 	}
 
+	return 'extension_Markdown';
