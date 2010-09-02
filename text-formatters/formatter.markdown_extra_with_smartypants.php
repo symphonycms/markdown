@@ -21,7 +21,7 @@
 		public function run($string){
 			if(!self::$_parser){
 				include_once(EXTENSIONS . '/markdown/lib/php-markdown-extra-1.2.4/markdown.php');
-				self::$_parser = new Markdown_Parser();
+				self::$_parser = new MarkdownExtra_Parser();
 			}
 			
 			// Markdown transformation
