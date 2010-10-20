@@ -3,8 +3,8 @@
 This extension provides Markdown formatting for fields.
 It is part of the Symphony core download package.
 
-- Version: 1.11
-- Date: 30th April 2010
+- Version: 1.12
+- Date: 20th October 2010
 - Requirements: Symphony 2.0.7+
 - Author: Alistair Kearney, alistair@symphony-cms.com
 - Constributors: [A list of contributors can be found in the commit history](http://github.com/pointybeard/markdown/commits/master)
@@ -22,6 +22,9 @@ Information about [installing and updating extensions](http://symphony-cms.com/l
 
 
 ## Change Log
+
+**Version 1.12**
+- Bugfix to correctly use Markdown Extra parser when required instead of vanilla Markdown.
 
 **Version 1.11**
 - Added back the "Markdown Extra" and "Markdown Extra with SmartyPants" formatters. The "Markdown with HTML Purifier" does not use the Extra or SmartyPants libraries.
