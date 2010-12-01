@@ -20,7 +20,8 @@
 				
 		public function run($string){
 			if(!self::$_parser){
-				include_once(EXTENSIONS . '/markdown/lib/php-markdown-extra-1.2.4/markdown.php');
+				if (!class_exists('MarkdownExtra_Parser'))
+					include_once(EXTENSIONS . '/markdown/lib/php-markdown-extra-1.2.4/markdown.php');
 				self::$_parser = new MarkdownExtra_Parser();
 			}
 			
