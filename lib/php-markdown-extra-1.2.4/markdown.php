@@ -11,15 +11,10 @@
 # <http://daringfireball.net/projects/markdown/>
 #
 
-if(!class_exists('Markdown_Parser')) {
 
 define( 'MARKDOWN_VERSION',  "1.0.1n" ); # Sat 10 Oct 2009
-
-}
-
 define( 'MARKDOWNEXTRA_VERSION',  "1.2.4" ); # Sat 10 Oct 2009
 
-if(!class_exists('Markdown_Parser')) {
 
 #
 # Global default settings:
@@ -31,8 +26,6 @@ if(!class_exists('Markdown_Parser')) {
 # Define the width of a tab for code blocks.
 @define( 'MARKDOWN_TAB_WIDTH',     4 );
 
-}
-
 # Optional title attribute for footnote links and backlinks.
 @define( 'MARKDOWN_FN_LINK_TITLE',         "" );
 @define( 'MARKDOWN_FN_BACKLINK_TITLE',     "" );
@@ -40,8 +33,6 @@ if(!class_exists('Markdown_Parser')) {
 # Optional class attribute for footnote links and backlinks.
 @define( 'MARKDOWN_FN_LINK_CLASS',         "" );
 @define( 'MARKDOWN_FN_BACKLINK_CLASS',     "" );
-
-if(!class_exists('Markdown_Parser')) {
 
 
 #
@@ -51,7 +42,6 @@ if(!class_exists('Markdown_Parser')) {
 # Change to false to remove Markdown from posts and/or comments.
 @define( 'MARKDOWN_WP_POSTS',      true );
 @define( 'MARKDOWN_WP_COMMENTS',   true );
-
 
 
 
@@ -1676,8 +1666,6 @@ class Markdown_Parser {
 	function _unhash_callback($matches) {
 		return $this->html_hashes[$matches[0]];
 	}
-
-}
 
 }
 
