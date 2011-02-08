@@ -4,7 +4,7 @@
 		public function about(){
 			return array(
 				'name' => 'Text Formatter: Markdown',
-				'version' => '1.2',
+				'version' => '1.13',
 				'release-date' => '2011-01-29',
 				'author' => array(
 					'name' => 'Alistair Kearney',

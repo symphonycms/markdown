@@ -3,7 +3,7 @@
 This extension provides Markdown formatting for fields.
 It is part of the Symphony core download package.
 
-- Version: 1.2
+- Version: 1.13
 - Date: 29th January 2011
 - Requirements: Symphony 2.0.7+
 - Author: Alistair Kearney, alistair@symphony-cms.com
