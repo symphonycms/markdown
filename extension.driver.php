@@ -5,7 +5,7 @@
 			return array(
 				'name' => 'Text Formatter: Markdown',
 				'version' => '1.14',
-				'release-date' => '2012-03-25',
+				'release-date' => '2012-05-21',
 				'author' => array(
 					'name' => 'Alistair Kearney',
 					'website' => 'http://symphony-cms.com',

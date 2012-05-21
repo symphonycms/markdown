@@ -14,7 +14,7 @@
 		</author>
 	</authors>
 	<releases>
-		<release version="1.14" date="2012-03-25" min="2.0.7" max="2.3.x">
+		<release version="1.14" date="2012-05-21" min="2.0.7" max="2.3.x">
 			- Update [HTML Purifier](http://htmlpurifier.org/) to 4.4.0
 			- Update [PHP Markdown](http://michelf.com/projects/php-markdown/) to 1.2.5
 		</release>
