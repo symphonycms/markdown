@@ -1,10 +1,10 @@
 PHP SmartyPants
 ===============
 
-Version 1.5.1e - Fri 9 Dec 2005
+Version 1.5.1f - Sun 23 Jan 2013
 
-by Michel Fortin
-<http://www.michelf.com/>
+by Michel Fortin  
+<http://michelf.ca/>
 
 based on work by John Gruber  
 <http://daringfireball.net/>
@@ -310,6 +310,20 @@ example text to illustrate.
 Version History
 ---------------
 
+1.5.1f (23 Jan 2013):
+
+*	Fixed handling of HTML comments to match latest HTML specs instead of
+	doing it the old SGML way.
+
+*	Lowered WordPress filtering priority to avoid clashing with the 
+	[caption] tag filter. Thanks to Mehdi Kabab for the fix.
+
+
+1.5.1oo (19 May 2006, unreleased)
+
+*   Converted SmartyPants to a object-oriented design.
+
+
 1.5.1e (9 Dec 2005)
 
 *	Corrected a bug that prevented special characters from being 
@@ -358,8 +372,8 @@ Version History
 Copyright and License
 ---------------------
 
-Copyright (c) 2005 Michel Fortin  
-<http://www.michelf.com/>  
+Copyright (c) 2005-2013 Michel Fortin  
+<http://michelf.ca/>
 All rights reserved.
 
 Copyright (c) 2003-2004 John Gruber   

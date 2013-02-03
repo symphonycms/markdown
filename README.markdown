@@ -3,11 +3,11 @@
 This extension provides Markdown formatting for fields.
 It is part of the Symphony core download package.
 
-- Version: 1.14
-- Date: 21st May 2012
+- Version: 1.15
+- Date: 3rd February 2013
 - Requirements: Symphony 2.0.7+
 - Author: Alistair Kearney, alistair@symphony-cms.com
-- Constributors: [A list of contributors can be found in the commit history](http://github.com/pointybeard/markdown/commits/master)
+- Contributors: [A list of contributors can be found in the commit history](http://github.com/pointybeard/markdown/commits/master)
 - GitHub Repository: <http://github.com/pointybeard/markdown>
 
 ## Synopsis
