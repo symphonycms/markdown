@@ -4,8 +4,8 @@
 		public function about(){
 			return array(
 				'name' => 'Text Formatter: Markdown',
-				'version' => '1.16',
-				'release-date' => '2013-05-30',
+				'version' => '1.17',
+				'release-date' => '2013-07-01',
 				'author' => array(
 					'name' => 'Alistair Kearney',
 					'website' => 'http://getsymphony.com',

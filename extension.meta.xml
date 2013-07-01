@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<extension id="markdown" status="released" xmlns="http://symphony-cms.com/schemas/extension/1.0">
+<extension id="markdown" status="released" xmlns="http://getsymphony.com/schemas/extension/1.0">
 	<name>Markdown Text Formatter</name>
 	<description>Text formatter that ships with Symphony</description>
 	<repo type="github">https://github.com/symphonycms/markdown</repo>
@@ -14,6 +14,9 @@
 		</author>
 	</authors>
 	<releases>
+		<release version="1.17" data="2013-07-01" min="2.0.7">
+			- Update links to **getsymphony.com**
+		</release>
 		<release version="1.16" date="2013-05-30" min="2.0.7">
 			- Update [HTML Purifier](http://htmlpurifier.org/) to 4.5.0
 			- Update [PHP Markdown Extra](http://michelf.com/projects/php-markdown/) to 1.2.7
