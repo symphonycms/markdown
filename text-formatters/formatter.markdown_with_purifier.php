@@ -21,7 +21,7 @@
 		public function run($string){
 			if(!self::$_parser){
 				if (!class_exists('Markdown_Parser'))
-					include_once(EXTENSIONS . '/markdown/lib/php-markdown-extra-1.2.7/markdown.php');
+					include_once(EXTENSIONS . '/markdown/lib/php-markdown-extra-1.2.8/markdown.php');
 				self::$_parser = new Markdown_Parser();
 			}
 
@@ -29,7 +29,7 @@
 			$result = stripslashes(self::$_parser->transform($string));
 
 			// Run the result through the HTML Purifier engine
-			include_once(EXTENSIONS . '/markdown/lib/htmlpurifier-4.5.0-standalone/HTMLPurifier.standalone.php');
+			include_once(EXTENSIONS . '/markdown/lib/htmlpurifier-4.6.0-standalone/HTMLPurifier.standalone.php');
 			$purifier = new HTMLPurifier;
 			$result = $purifier->purify($result);
 

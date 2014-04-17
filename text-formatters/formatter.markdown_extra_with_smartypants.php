@@ -21,7 +21,7 @@
 		public function run($string){
 			if(!self::$_parser){
 				if (!class_exists('MarkdownExtra_Parser'))
-					include_once(EXTENSIONS . '/markdown/lib/php-markdown-extra-1.2.7/markdown.php');
+					include_once(EXTENSIONS . '/markdown/lib/php-markdown-extra-1.2.8/markdown.php');
 				self::$_parser = new MarkdownExtra_Parser();
 			}
 
