@@ -14,7 +14,11 @@
 		</author>
 	</authors>
 	<releases>
-		<release version="1.17" data="2013-07-01" min="2.0.7">
+		<release version="1.18" date="2014-04-17" min="2.3">
+			- Update [HTML Purifier](http://htmlpurifier.org/) to 4.6.0
+			- Update [PHP Markdown Extra](http://michelf.com/projects/php-markdown/) to 1.2.8
+		</release>
+		<release version="1.17" date="2013-07-01" min="2.0.7">
 			- Update links to **getsymphony.com**
 		</release>
 		<release version="1.16" date="2013-05-30" min="2.0.7">
