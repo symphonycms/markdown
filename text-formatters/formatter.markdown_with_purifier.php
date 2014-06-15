@@ -30,7 +30,9 @@
 
 			// Run the result through the HTML Purifier engine
 			include_once(EXTENSIONS . '/markdown/lib/htmlpurifier-4.6.0-standalone/HTMLPurifier.standalone.php');
-			$purifier = new HTMLPurifier;
+			$purifier = new HTMLPurifier(array(
+				'Cache.SerializerPath' => CACHE
+			));
 			$result = $purifier->purify($result);
 
 			return $result;
