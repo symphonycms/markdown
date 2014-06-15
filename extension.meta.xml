@@ -14,6 +14,9 @@
 		</author>
 	</authors>
 	<releases>
+		<release version="1.19" data="2014-06-15" min="2.3">
+			- [#2094](https://github.com/symphonycms/symphony-2/issues/2094) Update Markdown (with HTML Purifier) to use Symphony's own `CACHE` folder.
+		</release>
 		<release version="1.18" date="2014-04-17" min="2.3">
 			- Update [HTML Purifier](http://htmlpurifier.org/) to 4.6.0
 			- Update [PHP Markdown Extra](http://michelf.com/projects/php-markdown/) to 1.2.8
