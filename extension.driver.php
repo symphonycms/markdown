@@ -14,17 +14,27 @@
 				foreach($conversion as $old => $new){
 
 					try{
-						Symphony::Database()->query(
-							sprintf("UPDATE `tbl_fields_textarea` SET `formatter` = '%s' WHERE `formatter` = '%s'", $new, $old)
-						);
+						Symphony::Database()
+							->update('tbl_fields_textarea')
+							->set([
+								'formatter' => $new,
+							])
+							->where(['formatter' => $old])
+							->execute()
+							->success();
 					}
 					catch(Exception $e){
 					}
 
 					try{
-						Symphony::Database()->query(
-							sprintf("UPDATE `tbl_fields_textbox` SET `text_formatter` = '%s' WHERE `text_formatter` = '%s'", $new, $old)
-						);
+						Symphony::Database()
+							->update('tbl_fields_textbox')
+							->set([
+								'text_formatter' => $new,
+							])
+							->where(['text_formatter' => $old])
+							->execute()
+							->success();
 					}
 					catch(Exception $e){
 					}
